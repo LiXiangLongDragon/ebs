@@ -1,0 +1,22 @@
+0 verbose cli D:\nodejs\node.exe D:\nvm\nvm\v22.20.0\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.20.0
+3 silly config load:file:D:\nvm\nvm\v22.20.0\node_modules\npm\npmrc
+4 silly config load:file:E:\wokSpace\viewweb\sc-datav\.npmrc
+5 silly config load:file:C:\Users\aw\.npmrc
+6 silly config load:file:D:\nvm\nvm\node_global\etc\npmrc
+7 verbose title npm exec @gltf-transform/cli optimize e:\wokSpace\viewweb\sc-datav\dist\model\glb\turbine.glb e:\wokSpace\viewweb\sc-datav\dist\model\glb\turbine.new.glb --texture-compress webp --texture-size 2048
+8 verbose argv "exec" "--yes" "--" "@gltf-transform/cli" "optimize" "e:\\wokSpace\\viewweb\\sc-datav\\dist\\model\\glb\\turbine.glb" "e:\\wokSpace\\viewweb\\sc-datav\\dist\\model\\glb\\turbine.new.glb" "--texture-compress" "webp" "--texture-size" "2048"
+9 verbose logfile logs-max:10 dir:e:\wokSpace\viewweb\sc-datav\.npm-tmp\_logs\2026-08-29T08_03_59_972Z-
+10 verbose logfile e:\wokSpace\viewweb\sc-datav\.npm-tmp\_logs\2026-08-29T08_03_59_972Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 http fetch GET 200 https://registry.npmmirror.com/@gltf-transform%2fcli 486ms (cache revalidated)
+14 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+15 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+16 verbose cwd E:\wokSpace\viewweb\sc-datav
+17 verbose os Windows_NT 10.0.26200
+18 verbose node v22.20.0
+19 verbose npm  v10.9.3
+20 verbose exit 1
+21 verbose code 1
