@@ -4,11 +4,11 @@
     {
       "type": "Feature",
       "properties": {
-        "adcode": 510000,
-        "name": "四川省",
-        "center": [104.065735, 30.659462],
-        "centroid": [102.693453, 30.674545],
-        "childrenNum": 21,
+        "adcode": 520000,
+        "name": "贵州省",
+        "center": [106.713478, 26.578343],
+        "centroid": [106.70741, 26.838326],
+        "childrenNum": 9,
         "level": "province",
         "acroutes": [100000],
         "parent": { "adcode": 100000 }

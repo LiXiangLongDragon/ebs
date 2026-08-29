@@ -27,9 +27,9 @@ const TableContent = styled.div`
 const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  gap: 0;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   height: 40px;
@@ -50,10 +50,10 @@ const HeaderItem = styled.div<{
 const BodyRowWrapper = styled.div<{ $height: number }>`
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  padding-inline: 0.5rem;
+  padding-inline: 0.25rem;
   margin: 2px;
   border-width: 1px 0;
   border-style: solid;

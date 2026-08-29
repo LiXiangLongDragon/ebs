@@ -14,9 +14,10 @@ type BarOption = ComposeOption<
   BarSeriesOption | TooltipComponentOption | GridComponentOption
 >;
 
-const data = [3000, 2000, 4000, 5000, 4500];
+const xData = ["贵阳市", "遵义市", "六盘水市", "安顺市", "毕节市", "铜仁市", "黔南州", "黔东南州", "黔西南州"];
+const data = [1200, 980, 750, 620, 890, 540, 680, 720, 580];
 const colors = ["#3061DB", "#BDCFFF"];
-const xData = ["50", "50～100", "100～500", "500～1000", "1000"];
+
 export default function Chart3() {
   const chartRef = useRef<EChartsType>(null);
   const tipIndex = useRef(0);
@@ -62,9 +63,9 @@ export default function Chart3() {
           },
         },
         grid: {
-          top: "20%",
-          bottom: "5%",
-          left: 10,
+          top: "15%",
+          bottom: "15%",
+          left: 40,
           right: 10,
           outerBoundsMode: "same",
         },
@@ -78,6 +79,8 @@ export default function Chart3() {
           axisLabel: {
             interval: 0,
             color: "rgba(255, 255, 255, 0.6)",
+            rotate: 30,
+            fontSize: 10,
           },
           axisTick: {
             show: false,
@@ -86,8 +89,14 @@ export default function Chart3() {
         },
         yAxis: {
           type: "value",
+          min: 0,
+          max: 1400,
+          interval: 200,
           splitLine: {
-            show: false,
+            show: true,
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.05)",
+            },
           },
           axisLine: {
             show: false,
@@ -101,13 +110,14 @@ export default function Chart3() {
         },
         series: [
           {
-            name: "",
+            name: "播发数量",
             type: "bar",
-            barWidth: 30,
+            barWidth: 20,
             label: {
               show: true,
               position: "top",
               color: "rgba(255, 255, 255, 0.8)",
+              fontSize: 10,
             },
             itemStyle: {
               color: {

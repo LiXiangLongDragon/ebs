@@ -1,4 +1,4 @@
-import { useRef, type ComponentProps } from "react";
+import { useEffect, useRef, type ComponentProps } from "react";
 import styled from "styled-components";
 import {
   Canvas,
@@ -6,7 +6,7 @@ import {
   extend,
   type ThreeElements,
 } from "@react-three/fiber";
-import { Image, ScrollControls, useScroll } from "@react-three/drei";
+import { Image } from "@react-three/drei";
 import {
   Color,
   DoubleSide,
@@ -66,70 +66,38 @@ class BentPlaneGeometry extends PlaneGeometry {
 
 const BentPlaneGeometryEl = extend(BentPlaneGeometry);
 
-const WheelDrop = styled.div`
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0.6;
-`;
-
-const Circle = styled.circle`
-  @keyframes scroll-drop {
-    0% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(15px);
-      opacity: 0;
-    }
-  }
-
-  animation: scroll-drop 1.5s ease-in-out infinite;
-`;
-
 export default function Index() {
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigator("/demo2");
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [navigator]);
+
   return (
     <Wrapper>
       <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
         <fog attach="fog" args={["#6e6e6e", 8.5, 12]} />
-        <ScrollControls pages={4} infinite>
-          <Rig rotation={[0, 0, 0.15]}>
-            <Carousel />
-          </Rig>
-        </ScrollControls>
+        <Rig rotation={[0, 0, 0.15]}>
+          <Carousel />
+        </Rig>
         <Bg />
       </Canvas>
-
-      <WheelDrop>
-        <svg width="20" height="32.5" viewBox="0 0 40 65">
-          <rect
-            x="2.5"
-            y="2.5"
-            width="35"
-            height="60"
-            rx="17.5"
-            ry="17.5"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-          />
-
-          <Circle cx="20" cy="15" r="3" fill="currentColor" />
-        </svg>
-      </WheelDrop>
     </Wrapper>
   );
 }
 
 function Rig(props: ThreeElements["group"]) {
   const ref = useRef<Group>(null!);
-  const scroll = useScroll();
   const vector3 = useRef(new Vector3(1, 1, 1));
 
   useFrame((state, delta) => {
-    ref.current.rotation.y = -scroll.offset * (Math.PI * 2);
+    // 匀速自动旋转
+    ref.current.rotation.y -= delta * 0.5;
+    // 圆环绕X轴前后摆动（中心点不变）
+    ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 1.2) * 0.35;
     state.events.update?.();
     vector3.current.set(-state.pointer.x * 2, state.pointer.y + 1.5, 10);
     state.camera.position.lerp(vector3.current, 1 - Math.exp(-8 * delta));
@@ -145,7 +113,7 @@ function Carousel({ radius = 1.4, count = 8 }) {
   return Array.from({ length: count }, (_, i) => (
     <Card
       key={i}
-      url={`${import.meta.env.BASE_URL}demo_${i % 4}.jpg`}
+      url={`/sc-datav/demo_${i + 1}.jpg`}
       position={[
         Math.sin((i / count) * Math.PI * 2) * radius,
         0,
@@ -154,7 +122,7 @@ function Carousel({ radius = 1.4, count = 8 }) {
       rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
       onClick={(e) => {
         e.stopPropagation();
-        navigator(["/demo0", "/demo1", "/demo2", "/demo3"][i % 4]);
+        navigator("/demo2");
       }}
     />
   ));

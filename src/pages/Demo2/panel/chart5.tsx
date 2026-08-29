@@ -12,13 +12,13 @@ type PieOption = ComposeOption<
   RadarSeriesOption | TooltipComponentOption | LegendComponentOption
 >;
 
-const data = [582, 421.2, 622.1, 625.3, 265, 224];
+const data = [578, 723, 689, 612, 856];
 const indicator = [
-  { name: "成都市", max: 1000 },
-  { name: "德阳市", max: 1000 },
-  { name: "绵阳市", max: 1000 },
-  { name: "宜宾市", max: 1000 },
-  { name: "达州市", max: 1000 },
+  { name: "遵义市", max: 1000 },
+  { name: "毕节市", max: 1000 },
+  { name: "铜仁市", max: 1000 },
+  { name: "黔南州", max: 1000 },
+  { name: "黔西南州", max: 1000 },
 ];
 
 export default function Chart5() {
@@ -28,11 +28,19 @@ export default function Chart5() {
       option={{
         radar: {
           center: ["50%", "50%"],
-          radius: "100%",
+          radius: "70%",
+          startAngle: 90,
           axisName: {
             color: "#BCDCFF",
+            fontSize: 11,
+            formatter: (value: string) => {
+              if (value.length > 3) {
+                return value.slice(0, 2) + "\n" + value.slice(2);
+              }
+              return value;
+            },
           },
-          axisNameGap: 0,
+          axisNameGap: 10,
           indicator: indicator,
           splitLine: {
             show: false,

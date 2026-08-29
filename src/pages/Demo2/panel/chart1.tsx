@@ -27,10 +27,10 @@ type PieOption = ComposeOption<PieSeriesOption | TooltipComponentOption>;
 const color = ["#bdcfff", "#b693e2", "#91cfd4", "#3061DB"];
 
 const trafficWay = [
-  { name: "第一季度", value: 20 },
-  { name: "第二季度", value: 10 },
-  { name: "第三季度", value: 30 },
-  { name: "第四季度", value: 40 },
+  { name: "第一季度", value: 4 },
+  { name: "第二季度", value: 6 },
+  { name: "第三季度", value: 15 },
+  { name: "第四季度", value: 3 },
 ];
 
 const data = trafficWay.reduce<PieSeriesOption["data"]>((pre, cur, i) => {
@@ -62,8 +62,8 @@ const data = trafficWay.reduce<PieSeriesOption["data"]>((pre, cur, i) => {
 }, []);
 
 const list = [
-  { name: "累计增长率", value: 36 },
-  { name: "同比增长率", value: 25 },
+  { name: "环比增长率", value: 5 },
+  { name: "同比下降率", value: 5 },
 ];
 let yName = list.map((item) => item.name);
 let xData = list.map((item) => item.value);
@@ -97,7 +97,7 @@ const StatisticsNumber = styled(NumberAnimation)`
   color: #3061db;
 
   &::after {
-    content: "亿千瓦时";
+    content: "条";
     display: inline-block;
     font-size: 12px;
     color: rgba(255, 255, 255, 0.7);
@@ -109,9 +109,9 @@ export default function Chart1() {
   return (
     <Wrapper>
       <Statistics>
-        <StatisticsTitle>总发电量</StatisticsTitle>
+        <StatisticsTitle>消息总量</StatisticsTitle>
         <StatisticsNumber
-          value={16608}
+          value={15368}
           options={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
         />
       </Statistics>

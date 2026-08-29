@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { Center, useTexture } from "@react-three/drei";
 import {
   Box2,
@@ -21,11 +21,10 @@ import type { CityGeoJSON } from "@/types/map";
 import ShapeBox from "./shape";
 import FlyLine from "./flyLine";
 import Boundary from "./boundary";
-import Label from "./label";
+import Label, { speakWarning } from "./label";
 import { useConfigStore } from "../stores";
 
 import scNormalMap from "@/assets/sc_normal_map1.png";
-import Cones from "./cone";
 
 export interface BaseProps {
   depth?: number;
@@ -140,6 +139,8 @@ export default function Base(props: BaseProps) {
     };
   }, [camera]);
 
+  const cityNames = useMemo(() => regions.map(r => r.name), [regions]);
+
   return (
     <Center top>
       <group
@@ -163,11 +164,11 @@ export default function Base(props: BaseProps) {
               feature={outlineData.features[0]}
             />
           )}
-          <Cones data={regions} />
           <FlyLine data={regions} />
           <Boundary data={boundary} />
         </group>
       </group>
+      <SpeakerController cityNames={cityNames} />
     </Center>
   );
 }
@@ -253,4 +254,78 @@ function City(props: {
       </Label>
     </object3D>
   );
+}
+
+// 喇叭轮播控制器组件
+export function SpeakerController({ cityNames }: { cityNames: string[] }) {
+  const mapPlayComplete = useConfigStore((s) => s.mapPlayComplete);
+  const setActiveSpeakerCity = useConfigStore((s) => s.setActiveSpeakerCity);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastIndexRef = useRef(-1);
+  const hasInteractedRef = useRef(false);
+  const useMandarinRef = useRef(false); // 交替标志：false=少数民族语言，true=普通话
+
+  // 监听用户交互，解决浏览器自动播放限制
+  useEffect(() => {
+    const handleInteraction = () => {
+      console.log('User interacted, enabling audio');
+      hasInteractedRef.current = true;
+    };
+
+    window.addEventListener('click', handleInteraction, { once: true });
+    window.addEventListener('touchstart', handleInteraction, { once: true });
+    window.addEventListener('keydown', handleInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!mapPlayComplete || cityNames.length === 0) return;
+
+    const playNext = () => {
+      // 随机选择一个城市（避免连续重复）
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * cityNames.length);
+      } while (newIndex === lastIndexRef.current && cityNames.length > 1);
+      lastIndexRef.current = newIndex;
+
+      const selectedCity = cityNames[newIndex];
+      // 交替播放：这次用少数民族语言，下次用普通话
+      const useMandarin = useMandarinRef.current;
+      useMandarinRef.current = !useMandarinRef.current; // 切换标志
+
+      if (hasInteractedRef.current) {
+        // 显示喇叭
+        setActiveSpeakerCity(selectedCity);
+        console.log('Playing warning for:', selectedCity, useMandarin ? '(普通话)' : '(少数民族语言)');
+
+        // 播放语音，播放完后等3秒再播下一个
+        speakWarning(selectedCity, useMandarin, () => {
+          console.log('Audio ended, hiding speaker and waiting 3 seconds...');
+          setActiveSpeakerCity(null); // 隐藏喇叭
+          timerRef.current = setTimeout(playNext, 3000);
+        });
+      } else {
+        // 用户还没交互，5秒后重试
+        timerRef.current = setTimeout(playNext, 5000);
+      }
+    };
+
+    // 初始延迟3秒后开始
+    timerRef.current = setTimeout(playNext, 3000);
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      setActiveSpeakerCity(null);
+    };
+  }, [mapPlayComplete, cityNames, setActiveSpeakerCity]);
+
+  return null;
 }

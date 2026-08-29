@@ -30,10 +30,11 @@ const dataType = { type1: "今年", type2: "去年" };
 
 let data: [string[], number[], number[]] = [[], [], []];
 
-for (let i = 0; i < 30; i++) {
-  data[0].push(`${i + 1}`.padStart(2, "0"));
-  data[1].push(Math.round(i * Math.random() * 1000));
-  data[2].push(Math.round(i * Math.random() * 1050));
+const months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+for (let i = 0; i < 12; i++) {
+  data[0].push(months[i]);
+  data[1].push(Math.round(Math.random() * 1000 + 500));
+  data[2].push(Math.round(Math.random() * 900 + 400));
 }
 
 export default function Chart2() {
@@ -47,9 +48,9 @@ export default function Chart2() {
         // 开始位置的数值
         startValue: xLength.current,
         // 结束位置的数值
-        endValue: xLength.current + 8,
+        endValue: xLength.current + 5,
       });
-      xLength.current = (xLength.current + 1) % (data[0].length - 8);
+      xLength.current = (xLength.current + 1) % (data[0].length - 5);
     }
   }, 2_000);
 
@@ -139,7 +140,7 @@ export default function Chart2() {
           show: false,
           realtime: true,
           startValue: 0,
-          endValue: 8,
+          endValue: 5,
         },
         series: [
           {

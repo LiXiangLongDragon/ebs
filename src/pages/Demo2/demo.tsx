@@ -14,6 +14,7 @@ export default function Index() {
   useEffect(() => {
     return useConfigStore.getState().reset();
   }, []);
+
   return (
     <Wrapper>
       <Map />

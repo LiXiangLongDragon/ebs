@@ -136,37 +136,37 @@ export default function Panel() {
         <Card
           ref={leftBox.ref}
           style={{ gridArea: "1 / 1 / 3 / 2" }}
-          title="发电汇总">
+          title="消息汇总">
           <Chart1 />
         </Card>
         <Card
           ref={leftBox1.ref}
           style={{ gridArea: "3 / 1 / 5 / 2" }}
-          title="用电量预测">
+          title="消息播发趋势">
           <Chart2 />
         </Card>
         <Card
           ref={leftBox2.ref}
           style={{ gridArea: "5 / 1 / 7 / 2" }}
-          title="上半年发电情况">
+          title="今年各市州播发情况统计">
           <Chart3 />
         </Card>
         <Card
           ref={rightBox.ref}
           style={{ gridArea: "1 / 4 / 3 / 5" }}
-          title="电网设备数量">
+          title="应急设备数据">
           <Chart4 />
         </Card>
         <Card
           ref={rightBox1.ref}
           style={{ gridArea: "3 / 4 / 5 / 5" }}
-          title="用电大市TOP5">
+          title="播发数量TOP5">
           <Chart5 />
         </Card>
         <Card
           ref={rightBox2.ref}
           style={{ gridArea: "5 / 4 / 7 / 5" }}
-          title="故障异常">
+          title="预警信息">
           <Chart6 />
         </Card>
       </GridWrapper>
